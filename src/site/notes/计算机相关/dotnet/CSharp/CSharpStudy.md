@@ -1,9 +1,11 @@
 ---
-{"dg-publish":true,"permalink":"/计算机相关/dotnet/CSharp/CSharpStudy/","created":"2025-03-15T17:24:00","updated":"2025-03-31T21:24:17.668+08:00"}
+{"dg-publish":true,"permalink":"/计算机相关/dotnet/CSharp/CSharpStudy/","created":"2025-03-15T17:24:00","updated":"2025-04-01T00:07:37.136+08:00"}
 ---
 
 
 # 基础知识
+
+---
 
 ## 类型
 
@@ -24,6 +26,8 @@
 | bool    | 布尔型             | true 或 false                                                 | System.Boolean | false       |
 | char    | Unicode字符串      | U+0000~U+ffff                                                | System.Char    | '\0' 即 null |
 | decimal | 小数类型的有效数字精度为28位 | +-1.0*10 28~<br><br>+-7.9*10 28                              | System.Decimal | 0m          |
+
+---
 
 ## 转换
 
@@ -54,6 +58,9 @@ void ChangeValue(ref int value)
 } 
 Console.WriteLine(i);// 20
 ```
+
+
+---
 
 ## 字符串
 
@@ -141,6 +148,9 @@ var (minimum, maximum) = FindMinMax(ys); Console.WriteLine($"Limits of [{string.
 }
 ```
 
+
+---
+
 ## ?、??、?. 运算符
 
 ### (?)可空类型修饰符（C#2.0-2005-11-07）
@@ -198,6 +208,9 @@ person = new Person { JobTitle = "Software Engineer" }; jobTitle = person?.JobTi
 Console.WriteLine(jobTitle); // 输出: Software Engineer
 ```
 
+
+---
+
 ## 装箱、拆箱
 
 - 装箱：将值类型转换为引用类型
@@ -206,6 +219,9 @@ Console.WriteLine(jobTitle); // 输出: Software Engineer
 	- 有继承关系可能发生装箱，无继承关系一定不会发生装箱
 	- 如：string str = "123"; int i = (int)str; 没有发生拆箱，因为 int 和 string 没有继承关系
 - 装、拆箱会影响性能
+
+
+---
 
 ## 集合
 
@@ -230,8 +246,9 @@ foreach (var item in arrayList)
 }
 
 ```
+
 - ### List<>
-- 删除集合元素后，表面上集合变小了，实际上集合大小没变，只是能获取到的索引范围变小了
+	- 删除集合元素后，表面上集合变小了，实际上集合大小没变，只是能获取到的索引范围变小了
 
 ```cs
 List<string> names = new List<string>() { "John", "Mary", "Peter" }; 
@@ -252,6 +269,9 @@ List<string> list = name2.ToList();
 names.Clear(); 
 Console.WriteLine(names.Count);
 ```
+
+
+---
 
 ## 字典
 
@@ -308,6 +328,9 @@ foreach (var item in readOnlyDict)
 	Console.WriteLine(item.Key + " " + item.Value); 
 }
 ```
+
+
+---
 
 ## 面向对象
 
@@ -473,7 +496,7 @@ vehicle.Run();
 
 ### 抽象类
 
-- 抽象类为做基类而生，我们应该封装那些不变的、稳定的、固定的和确定的成员，而把那些不确定的、有可能改变的成员声明为抽象成员，并且留给子类去实现——[27集，18：30](【刘铁猛《C#语言入门详解》全集】 【精准空降到 18:24】 https://www.bilibili.com/video/BV13b411b7Ht/?p=27&share_source=copy_web&vd_source=407f92cf6751e29e9d623fde5b09db24&t=1104)
+- 抽象类为做基类而生，我们应该封装那些不变的、稳定的、固定的和确定的成员，而把那些不确定的、有可能改变的成员声明为抽象成员，并且留给子类去实现——[27集，18：30]( https://www.bilibili.com/video/BV13b411b7Ht/?p=27&share_source=copy_web&vd_source=407f92cf6751e29e9d623fde5b09db24&t=1104)
 - 抽象类不一定有抽象方法，但有抽象方法的类一定是抽象类
 - 抽象方法不能是 private 的
 - 抽象类不能被实例化
@@ -482,6 +505,8 @@ vehicle.Run();
 
 - 高层的模块不应该依赖于低层的模块，二者都应该依赖于抽象类，抽象类不应该依赖于细节，而是细节依赖于抽象类
 	- 抽象类：抽象类和接口 细节：就是实现抽象类或接口的具体类。
+
+---
 
 ## 接口
 
@@ -495,19 +520,23 @@ vehicle.Run();
 - C#12中，接口成员可以添加 public internal修饰符了
 - C#8.0接口中的方法可以有方法体（默认实现）了
 
+---
+
 ## 用什么方式实现多态
 
-> 什么时候用虚方法来实现多态？
+> **什么时候用虚方法来实现多态？**
 
-   几个子类中可以抽象提取出一个公共的父类，并且父类必须写上几个子类共有的方法，但是又不知道父类方法具体怎么写，而且需要父类实例化对象
+- 几个子类中可以抽象提取出一个公共的父类，并且父类必须写上几个子类共有的方法，但是又不知道父类方法具体怎么写，而且需要父类实例化对象
 
-> 什么时候用抽象类来实现多态？
+> **什么时候用抽象类来实现多态？**
 
-   和上面一样，但是不需要父类实例化
+- 和上面一样，但是不需要父类实例化
 
->什么时候用接口来实现多态？
+>**什么时候用接口来实现多态？**
 
- 几个子类根本就抽象不出父类，但是他们都有一个共同的行为、能力
+ - 几个子类根本就抽象不出父类，但是他们都有一个共同的行为、能力
+
+---
 
 ## 委托
 
@@ -624,15 +653,9 @@ else
 
 - 如果委托有引用参数，参数值会根据调用列表中的一个或多个方法的返回值而改变
 
-## 事件
+### 匿名方法（C#2.0 2005-11-07）
 
-
-
-
-
-## 匿名方法（C#2.0 2005-11-07）
-
-### 语法
+#### 语法
 
 - delegate 类型关键字
 - 参数列表，如果语句块没有使用任何参数则可以省略
@@ -673,7 +696,7 @@ class Program
 }
 ```
 
-### 返回类型
+#### 返回类型
 
 - 匿名方法不会显式声明返回值。
 - 如果委托有返回类型，则在匿名方法的语句块内返回值。
@@ -692,7 +715,7 @@ static void Main()
 }
 ```
 
-### params 参数
+#### params 参数
 
 - 如果委托声明的参数列表包含了 params 参数，那么匿名方法的参数将忽略 params 关键字。例如在如下代码中：
 	- 委托类型声明指定最后一具参数为 params 类型的参数
@@ -709,7 +732,8 @@ Somedel mDel = delegate(int x, int[] y)
 
 ```
 
-## Lambda 表达式（C#3.0 2007-11-06）
+
+#### Lambda 表达式（C#3.0 2007-11-06）
 
 - 删除 delegate 关键字
 - 在参数列表和匿名方法主体之间放 Lambda 运算符 =>。Lambda 运算符读作“goes to“
@@ -728,27 +752,36 @@ Mydel lam1 =             x => x + 1; // Lambda 表达式
 - Lambda 表达式参数列表中参数必须在参数数量、类型和位置上与委托相匹配
 - 如果没有参数，必须使用一组空的圆括号
 
+
+---
+
+## 事件
+
+
+---
 ## solid设计原则
 
->  S-single responsibility principle（SRP）—单一职责原则
+>  **S-single responsibility principle（SRP）—单一职责原则**
 
 - 一个类或一个模块只做一件事，让一个类或者一个模块专注于单一的功能，减少功能之间的耦合程度，这样做在需要修改某个功能时，就不会影响到其他的功能
 
->  O—open closed principle（OCP）——开闭原则
+>  **O—open closed principle（OCP）——开闭原则**
 
 - 对扩展开放，对修改关闭。一个类独立之后就不应该去修改它，而是以扩展的方式适应新需求。
 
-> L—liskov substitution principle（LSP）—里氏替换原则
+> **L—liskov substitution principle（LSP）—里氏替换原则**
 
 - 所有基类出现的地方都可以用派生类替换，而不会让程序产生错误，派生类可以扩展基类的功能，但不能改变基类原有的功能。
 
->  I—interface segregation principle（ISP）—接口隔离原则
+>  **I—interface segregation principle（ISP）—接口隔离原则**
 
 - 一个接口应该拥有尽可能少的行为，使其精简单一。对于不同的功能的模块分别使用不同接口，而不是使用同一个通用的接口。
 
->  D—depend inversion principle（DIP）—依赖倒置原则
+>  **D—depend inversion principle（DIP）—依赖倒置原则**
 
 - 高级模块不应该依赖低级模块，而是依赖抽象接口，通过抽象接口使用对应的低级模块。
+
+---
 
 ## IO文件
 
@@ -786,7 +819,8 @@ File.Delete(str + @"\test.txt");
 File.Copy(str + @"\test.txt", str + @"\test2.txt");
 ```
 
- - ####  读取文件
+#### 读取文件
+
 - 方法二、三只能读取文本文件，方法一可以读取多媒体文件
 
 ```cs
@@ -807,7 +841,7 @@ string contents = File.ReadAllText(strAddress); Console.WriteLine(contents);
 
 ```
 
-- #### 写入文件
+#### 写入文件
 
 ```cs
 // 方法一：WriteAllBytes 
@@ -899,6 +933,7 @@ using (StreamWriter sw = new StreamWriter(strAddress, true, Encoding.UTF8))
 ```
 
 
+---
 
 ## 加密
 
@@ -934,6 +969,8 @@ static string GetMD5(string str)
 }
 ```
 
+
+---
 
 ## 杂项
 
@@ -1041,7 +1078,8 @@ Array.ForEach<int>(arr, x => Console.Write(x + " "));
 arr = arr.Select(x => x * 2).ToArray(); 
 Console.WriteLine("\nselect *=5后："); 
 
-Array.ForEach<int>(arr, x => Console.Write(x + " ")); /* 
+Array.ForEach<int>(arr, x => Console.Write(x + " ")); 
+/* 
 开始： 
 1 2 3 4 5 
 Array.ForEach *=2后：
@@ -1051,13 +1089,21 @@ select *=5后：
 */
 ```
 
-# [历代 C# 语言特性，C# 发展历史](https://learn.microsoft.com/zh-cn/dotnet/csharp/whats-new/csharp-version-history)—微软官方
+---
 
-- [从 C# 1.0 到 C# 9.0，历代 C# 语言特性一览](https://zhuanlan.zhihu.com/p/349915066)
+# 微软官方文档
 
-# [编译器错误消息—微软官方文档](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/compiler-messages/feature-version-errors)
+- ## [微软 C# 官方文档][微软 C# 官方文档]
 
+- ## [历代 C# 语言特性，C# 发展历史——微软官方][历代 C# 语言特性，C# 发展历史——微软官方]
+	- [从 C# 1.0 到 C# 9.0，历代 C# 语言特性一览](https://zhuanlan.zhihu.com/p/349915066)
 
+- ## [编译器错误消息—微软官方文档](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/compiler-messages/feature-version-errors)
 
-
+---
 始建于：2025-3-15-17：24
+
+
+[历代 C# 语言特性，C# 发展历史——微软官方]:https://learn.microsoft.com/zh-cn/dotnet/csharp/whats-new/csharp-version-history
+
+[微软 C# 官方文档]:https://learn.microsoft.com/zh-cn/dotnet/csharp/tour-of-csharp/
