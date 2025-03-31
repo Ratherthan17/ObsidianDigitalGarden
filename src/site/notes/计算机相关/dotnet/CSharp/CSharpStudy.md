@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/计算机相关/dotnet/CSharp/CSharpStudy/","created":"2025-03-15T17:24:00","updated":"2025-04-01T00:07:37.136+08:00"}
+{"dg-publish":true,"permalink":"/计算机相关/dotnet/CSharp/CSharpStudy/","created":"2025-03-15T17:24:00","updated":"2025-04-01T00:41:17.876+08:00"}
 ---
 
 
@@ -34,13 +34,12 @@
 ### 显式转换
 
 - Convert.ToInt32()
-	- [四舍六入五成双](https://baike.baidu.com/item/%E5%9B%9B%E8%88%8D%E5%85%AD%E5%85%A5%E4%BA%94%E6%88%90%E5%8F%8C/9062547)
+	- [四舍六入五成双]( https://baike.baidu.com/item/%E5%9B%9B%E8%88%8D%E5%85%AD%E5%85%A5%E4%BA%94%E6%88%90%E5%8F%8C/9062547)
 { #258d2f}
 
 		- （1）被修约的数字小于5时，该数字舍去；
 		- （2）被修约的数字大于5时，则进位；
 		- （3）被修约的数字等于5时，要看5前面的数字，若是奇数则进位，若是偶数则将5舍掉，即修约后末尾数字都成为偶数；若5的后面还有不为“0”的任何数，则此时无论5的前面是奇数还是偶数，均应进位。
-
 ## ref引用
 
 - ref 必须位于类型和名称前面
@@ -1103,6 +1102,7 @@ select *=5后：
 ---
 始建于：2025-3-15-17：24
 
+ 
 
 [历代 C# 语言特性，C# 发展历史——微软官方]:https://learn.microsoft.com/zh-cn/dotnet/csharp/whats-new/csharp-version-history
 
