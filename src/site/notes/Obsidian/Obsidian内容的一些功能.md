@@ -1,5 +1,5 @@
 ---
-{"date":"2025-03-30T21:35:00","dg-home":true,"dg-publish":true,"aliases":["别名"],"cssclasses":["列表1","列表2"],"数字":114514,"tags":["标签1","gardenEntry","gardenEntry","gardenEntry","gardenEntry","gardenEntry"],"文本":"这是一条文本","permalink":"/Obsidian/Obsidian内容的一些功能/","dgPassFrontmatter":true}
+{"date":"2025-03-30T21:35:00","dg-home":true,"dg-publish":true,"aliases":["别名"],"cssclasses":["列表1","列表2"],"数字":114514,"tags":["标签1","gardenEntry","gardenEntry","gardenEntry","gardenEntry","gardenEntry","gardenEntry"],"文本":"这是一条文本","permalink":"/Obsidian/Obsidian内容的一些功能/","dgPassFrontmatter":true}
 ---
 
 # 插入东西
