@@ -1,11 +1,8 @@
 ---
-{"dg-publish":true,"permalink":"/计算机相关/Software/VSCode/在右键菜单添加 “用 VSCode 打开”/","updated":"2025-04-01T20:19:24.858+08:00"}
+{"dg-publish":true,"permalink":"/计算机相关/Software/VSCode/在右键菜单添加 “用 VSCode 打开”/","updated":"2025-04-01T21:47:41.468+08:00"}
 ---
 
 
-# 目录
-```table-of-contents
-```
 
 ---
 

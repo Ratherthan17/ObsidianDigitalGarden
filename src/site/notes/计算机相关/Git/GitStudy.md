@@ -1,14 +1,9 @@
 ---
-{"dg-publish":true,"permalink":"/计算机相关/Git/GitStudy/","updated":"2025-04-01T16:10:48.911+08:00"}
+{"dg-publish":true,"permalink":"/计算机相关/Git/GitStudy/","updated":"2025-04-01T20:38:28.668+08:00"}
 ---
 
 
 ---
-
-# 目录
-
-```table-of-contents
-```
 
 # Git  常用指令速查表
 
