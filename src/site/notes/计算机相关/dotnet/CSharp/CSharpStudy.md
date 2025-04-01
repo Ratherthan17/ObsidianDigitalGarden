@@ -1,8 +1,22 @@
 ---
-{"dg-publish":true,"permalink":"/计算机相关/dotnet/CSharp/CSharpStudy/","created":"2025-03-15T17:24:00","updated":"2025-04-01T00:41:17.876+08:00"}
+{"dg-publish":true,"permalink":"/计算机相关/dotnet/CSharp/CSharpStudy/","created":"2025-03-15T17:24:00","updated":"2025-04-01T03:40:00.000+08:00"}
 ---
 
 
+
+---
+
+# 微软官方文档
+
+- ## [微软 C# 官方文档][微软 C# 官方文档]
+
+- ## [历代 C# 语言特性，C# 发展历史——微软官方][历代 C# 语言特性，C# 发展历史——微软官方]
+	- [从 C# 1.0 到 C# 9.0，历代 C# 语言特性一览](https://zhuanlan.zhihu.com/p/349915066)
+
+- ## [编译器错误消息—微软官方文档](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/compiler-messages/feature-version-errors)
+
+
+---
 # 基础知识
 
 ---
@@ -33,9 +47,9 @@
 
 ### 显式转换
 
-- Convert.ToInt32()
+- `Convert.ToInt32()`
 	- [四舍六入五成双]( https://baike.baidu.com/item/%E5%9B%9B%E8%88%8D%E5%85%AD%E5%85%A5%E4%BA%94%E6%88%90%E5%8F%8C/9062547)
-{ #258d2f}
+{ #4Round6Carry}
 
 		- （1）被修约的数字小于5时，该数字舍去；
 		- （2）被修约的数字大于5时，则进位；
@@ -43,9 +57,9 @@
 ## ref引用
 
 - ref 必须位于类型和名称前面
-	- int ref i = ref j; // 错误
-	- ref int i = ref j;// 正确
-	- int ref j;// 错误，必须要有初始值
+	- `int ref i = ref j; // 错误`
+	- `ref int i = ref j;// 正确`
+	- `int ref j;// 错误，必须要有初始值`
 
 ```cs
 int i = 10; 
@@ -101,7 +115,7 @@ Console.WriteLine(oStr);
 
 ### [字符串格式](https://www.cnblogs.com/diwu/articles/Csharp_tostring.html)
 
-- XXX.ToString("X2");
+- `XXX.ToString("X2");`
 
 ### [元组（C#7.0-2017 年 3 月）](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/value-tuples)
 
@@ -155,17 +169,17 @@ var (minimum, maximum) = FindMinMax(ys); Console.WriteLine($"Limits of [{string.
 ### (?)可空类型修饰符（C#2.0-2005-11-07）
 
 - 引用类型可以使用空引用表示一个不存在的值，而值类型通常不能表示为空。
-	- 例如：string str=null; 是正确的，int i=null; 编译器就会报错。
+	- 例如：`string str=null;` 是正确的，`int i=null;` 编译器就会报错。
 - 为了使值类型也可为空，就可以使用可空类型，即用可空类型修饰符"？"来表示，表现形式为"T？"
-	- 例如：int? 表示可空的整形，DateTime? 表示可为空的时间。
-	- T? 其实是System.Nullable(泛型结构）的缩写形式，也就意味着当你用到T？时编译器编译 时会把T？编译成System.Nullable的形式。
-	- 例如：int?,编译后便是System.Nullable的形式。
+	- 例如：`int?` 表示可空的整形，`DateTime?` 表示可为空的时间。
+	- `T?` 其实是`System.Nullable`(泛型结构）的缩写形式，也就意味着当你用到`T？`时编译器编译时会把`T？`编译成`System.Nullable`的形式。
+	- 例如：`int?`,编译后便是`System.Nullable`的形式。
 
 ### (??) 空合并运算符（C#8.0-2019-04-18）
 
 - 用于定义可空类型和引用类型的默认值。**如果此运算符的左操作数不为null，则此运算符将返回左操作数，否则返回右操作数。**
-	- 例如：a??b 当a不为null时返回a本身，a为null时则返回b，。
-- 空合并运算符为右结合运算符，即操作时从右向左进行组合的。如，“a??b??c”的形式按“a??(b??c)”计算。
+	- 例如：`a??b` 当a不为null时返回a本身，a为null时则返回b，。
+- 空合并运算符为右结合运算符，即操作时从右向左进行组合的。如，“`a??b??c`”的形式按“`a??(b??c)`”计算。
 
 ```cs
 string a = null;
@@ -180,8 +194,8 @@ Console.WriteLine(a);// world
 
 - 空合并赋值运算符 (??=) 是 ?? 运算符的赋值版本，它允许你为可能为 null 的变量提供一个默认值。**如果变量为 null，则将其赋值为右边的值；否则保持不变。**
 - ??= 运算符的左操作数必须是变量、属性或索引器元素。
-- a = a + b ; => a += b;
-	- a = a ?? b; => a ??= b;
+- `a = a + b ;` =>` a += b;`
+	- `a = a ?? b;` => `a ??= b;`
 
 ```cs
 string nickname = null;// 昵称 
@@ -216,7 +230,7 @@ Console.WriteLine(jobTitle); // 输出: Software Engineer
 - 拆箱：将引用类型转换为值类型
 - 看两种类型是否发生了装箱或者拆箱，要看，这两种类型是否存在继承关系。
 	- 有继承关系可能发生装箱，无继承关系一定不会发生装箱
-	- 如：string str = "123"; int i = (int)str; 没有发生拆箱，因为 int 和 string 没有继承关系
+	- 如：`string str = "123"; int i = (int)str;` 没有发生拆箱，因为 int 和 string 没有继承关系
 - 装、拆箱会影响性能
 
 
@@ -336,7 +350,7 @@ foreach (var item in readOnlyDict)
 ### 类
 
 - 自动属性（C#3-2007-11-06）
-	- public string Name {get; set;}
+	- `public string Name {get; set;}`
 - 类实例化时，更简单的初始化（C#3-2007-11-06）
 
 ```cs
@@ -523,15 +537,15 @@ vehicle.Run();
 
 ## 用什么方式实现多态
 
-> **什么时候用虚方法来实现多态？**
+> [!question] **什么时候用虚方法来实现多态？**
 
 - 几个子类中可以抽象提取出一个公共的父类，并且父类必须写上几个子类共有的方法，但是又不知道父类方法具体怎么写，而且需要父类实例化对象
 
-> **什么时候用抽象类来实现多态？**
+> [!question] **什么时候用抽象类来实现多态？**
 
 - 和上面一样，但是不需要父类实例化
 
->**什么时候用接口来实现多态？**
+> [!question] **什么时候用接口来实现多态？**
 
  - 几个子类根本就抽象不出父类，但是他们都有一个共同的行为、能力
 
@@ -619,10 +633,10 @@ delVar -= SCL.m3// 从委托移除方法
 Unhandled exception. System.NullReferenceException: Object reference not set to an instance of an object. at Program.<Main>$(String[] args) in E:\Computer\VS\Console\ConsoleApp1\ConsoleApp1\Program.cs:line 273
 ```
 
-> **为避免调用空委托，可以使用空条件运算符**
+> [!tip] **为避免调用空委托，可以使用空条件运算符**
 
-- myDelegate?.Invoke("你好，世界！");
-- myDelegate?.("你好，世界！");
+- `myDelegate?.Invoke("你好，世界！");`
+- `myDelegate?.("你好，世界！");`
 
 ```cs
 MyDel delVar = inst.Mym1; 
@@ -1044,7 +1058,7 @@ Console.WriteLine($"Time elapsed: {sw.Elapsed}");
 ### 控制台
 
 - 控制台高度以行（线）为单位，而不是像素。
-- Console.SetWindowSize(40, 20);
+- `Console.SetWindowSize(40, 20);`
 - 可以通过下面两行代码查看控制台最大高度、宽度
 	- `Console.WriteLine(Console.LargestWindowHeight);`
 	- `Console.WriteLine(Console.LargestWindowWidth);`
@@ -1088,16 +1102,8 @@ select *=5后：
 */
 ```
 
----
 
-# 微软官方文档
 
-- ## [微软 C# 官方文档][微软 C# 官方文档]
-
-- ## [历代 C# 语言特性，C# 发展历史——微软官方][历代 C# 语言特性，C# 发展历史——微软官方]
-	- [从 C# 1.0 到 C# 9.0，历代 C# 语言特性一览](https://zhuanlan.zhihu.com/p/349915066)
-
-- ## [编译器错误消息—微软官方文档](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/compiler-messages/feature-version-errors)
 
 ---
 始建于：2025-3-15-17：24
