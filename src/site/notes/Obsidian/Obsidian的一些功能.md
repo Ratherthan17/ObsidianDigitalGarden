@@ -1,9 +1,16 @@
 ---
-{"dg-publish":true,"permalink":"/Obsidian/Obsidian的一些功能/","title":"Obsidian的一些功能","tags":["gardenEntry"],"created":"2025-03-30T21:35:00","updated":"2025-04-01T03:31:20.000+08:00"}
+{"dg-publish":true,"permalink":"/Obsidian/Obsidian的一些功能/","title":"Obsidian的一些功能","tags":["gardenEntry"],"created":"2025-03-30T21:35:00","updated":"2025-04-01T15:15:42.930+08:00"}
 ---
 
 
 ---
+
+# 目录
+```table-of-contents
+```
+
+---
+
 # 官方文档
 
 - ## [Obsidian 官方中文文档  ][Obsidian 官方中文文档]
@@ -19,7 +26,7 @@
 ---
 ### 嵌入内容
 
-链接  [[计算机相关/dotnet/CSharp/CSharpStudy\|CSharpStudy]]
+链接  [[CSharpStudy]]
 
 
 <div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/obsidian//" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
@@ -27,10 +34,10 @@
 
 
 
-反链接 [[Obsidian/Obsidian的一些功能\|Obsidian的一些功能]]
+反链接 [[Obsidian的一些功能]]
 这是你的新*仓库*。
 
-写点笔记，[[Obsidian/Obsidian的一些功能\|Obsidian的一些功能]]，或者试一试[导入器](https://help.obsidian.md/Plugins/Importer)插件!
+写点笔记，[[Obsidian的一些功能]]，或者试一试[导入器](https://help.obsidian.md/Plugins/Importer)插件!
 
 当你准备好了，就将该笔记文件删除，使这个仓库为你所用。
 
@@ -47,6 +54,9 @@
 
 
 
+# 目录
+```table-of-contents
+```
 
 ---
 
