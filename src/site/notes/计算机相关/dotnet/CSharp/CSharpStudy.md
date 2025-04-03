@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/计算机相关/dotnet/CSharp/CSharpStudy/","created":"2025-03-15T17:24:00","updated":"2025-04-01T23:32:52.321+08:00"}
+{"dg-publish":true,"permalink":"/计算机相关/dotnet/CSharp/CSharpStudy/","created":"2025-03-15T17:24:00","updated":"2025-04-04T00:30:16.642+08:00"}
 ---
 
 
@@ -553,13 +553,28 @@ vehicle.Run();
 ## 委托
 
 - 委托是一种类，类是数据类型，所以委托也是一种数据类型。
-	- 委托是类，所以写在class外边
+	- 委托是类，所以写在命名空间中
+- 可以把委托看成是一个类型安全的、面向对象的C\C++ 函数指针
 
-- 可以把类看成是一个类型安全的、面向对象的C\C++ 函数指针
+- 一切皆地址
+	- 变量（数据）以某个地址为起点的一段内存中所存储的值
+	- 函数（算法）是以某个地址为起点的一段内存中所存储的一组机器语言指令
+- 直接调用与间接调用
+	- 直接调用：通过函数名来调用函数，CPU通过函数名直接获得函数所在地址并开始执行→返回
+	- 间接调用：通过函数指针来调用函数，CPU通过读取函数指针存储的值获得函数所在地址并开始执行→返回
+		- **为什么要多此一举间接调用？**
+			- 函数指针可以做成员，可以做本地变量
+			- 因为可以做成员，有了链表等数据结构
+			- 因为函数指针可以做函数形参，你传进来啥函数，就调用啥，增加复用
+
 - 委托的作用
 	- 函数传参
 	- 回调函数
-
+- 委托的简单使用
+	- Action委托
+		- 无返回值
+	- Func委托
+		- 有返回值
  
 ### 声明委托类型
 
@@ -594,6 +609,29 @@ MyDelegate delVar = myInstObj.Mym1;// 创建委托并保存引用
 
 - 给委托变量重新赋值，会创建一个新的委托对象并赋值给它，旧的委托对象会被垃圾回收器回收。
 
+### 委托的一般使用
+
+- 实例：把方法当作参数传给另一个方法
+	- 正确使用1：**模板方法**，借用指定的外部方法来产生结果
+		- 相当于“填空题”
+		- 常位于代码中部
+		- 委托有返回值
+	- 正确使用2：**回调（callback）方法**，调用指定的外部方法
+		- 相当于"流水线”
+		- 常位于代码末尾
+		- 委托无返回值
+
+- 注意：难精通+易使用+功能强大东西，一旦被滥用则后果非常严重
+	- 缺点1：这是一种方法级别的紧耦合，现实工作中要慎之又慎
+	- 缺点2：使可读性下降、debug的难度增加
+	- 缺点3：把委托回调、异步调用和多线程纠缠在一起，会让代码变得难以阅读和维护
+	- 缺点4：[委托使用不当有可能造成内存泄漏和程序性能下降](https://www.bilibili.com/video/BV13b411b7Ht/?p=19&share_source=copy_web&vd_source=407f92cf6751e29e9d623fde5b09db24&t=3226)
+		- 内存泄漏：程序在申请内存后，无法释放已申请的内存空间
+		- 如果委托引用的方法是一个对象的实例方法，拿委托引用了这个方法，即使没有别的引用类型变量来引用此对象了，这个对象也不得不存在于内存中，无法被释放。
+
+> [!warning] 注意
+> 应该适时地使用接口取代一些对委托的使用
+> - Java完全地使用接口取代了委托的功能，即Java没有与C#中委托相对应的功能实体
 ### 多播委托
 
 #### 增加方法
@@ -768,6 +806,53 @@ Mydel lam1 =             x => x + 1; // Lambda 表达式
 ---
 
 ## 事件
+
+### 简介
+
+1.  **事件的误传： [认为事件是一种特殊的委托类型字段]( https://www.bilibili.com/video/BV13b411b7Ht/?p=20&share_source=copy_web&vd_source=407f92cf6751e29e9d623fde5b09db24&t=52)**
+	 - 类中有字段了，但还是有属性这个东西，事件和委托差不多也是这个关系[^1]
+
+2. **事件最大的特点就是能够发生**。如果一个作为主语的名词，可以使用“发生”这个词来做它的谓语动词的话，那么它就是一个事件。例如：
+	- 苹果，我们不能说一个苹果发生了
+	- 公司上市、产品发布，它们是可以发生的， 所以这俩是事件
+	
+3. **事件是一种类型的成员**
+	- 凡是事件，都是隶属于某一个主体的，没有公司，就不会有“上市”这个事件发生；没有产品，就不会有”发布“这个事件发生
+4. **事件的功能**
+	- 事件是使对象或类具备**通知能力**的成员
+	- 事件的功能 = 通知 + 可选的事件参数（即详细信息）
+
+5. **事件的使用**
+	- 用于对象或类间的动作协调与信息传递（消息推送）
+
+6. **事件原理**：事件模型中的两个“5”
+	- "发生→响应"中的5个部分——闹钟响了你起床、孩子饿了你做饭....这里隐含着"订阅"关系
+	- "发生→响应"中的5个动作——
+		- （1）我有一个事件→
+		- （2）一个人或者一群人关心我的这个事件→
+		- （3）我的这个事件发生了→
+		- （4）关心这个事件的人会被依次通知到→
+		- （5）被通知到的人根据拿到的事件信息（又称"事件数据"、"事件参数"、"通知"）采取行动，称为对事件进行响应（又称"处理事件"）。
+
+7. **约定的术语**
+	- 这四个是一个意思 
+		- **事件的订阅者**
+		- 事件消息的接收者
+		- 事件的响应者
+		- 被事件所通知的对象
+	- 事件的处理者
+	- 这四个是一个意思 
+		- 事件信息
+		- 事件消息
+		- 事件数据
+		- **事件参数**
+
+> [!tip] 提示
+> - 事件多用于桌面、手机等开发的客户端编程，因为这些程序经常是用户通过事件来"驱动"的
+> - 各种编程语言对这个机制的实现方法不尽相同
+> - Java语言里没有事件这种成员，也没有委托这种数据类型。Java的"事件"是使用接口来实现的
+> - MVC、MVP、MVVM等模式，是事件模式更高级、更有效的"玩法"
+> - 日常开发的时候，使用已有事件的机会比较多，自己声明事件的机会比较少，所以先学使用
 
 
 ---
@@ -1101,6 +1186,131 @@ select *=5后：
 */
 ```
 
+---
+
+# 进阶知识
+
+## 多线程、异步编程
+
+### 简介
+
+- 同步与异步
+	- 同步：你做完了我在你的基础上接着做（一条流水线）
+	- 异步：咱们两个同时做（相当于汉语中的同步进行）（多条流水线）
+- 同步调用与异步调用的对比
+	- 每一个运行的程序是一个进程（process）
+	- 每个进程可以有一个或多个线程（thread）
+	- 同步调用是在同一线程内
+	- 异步调用的底层机理是多线程
+	- 串行 == 同步 == 单线程；并行 == 异步 == 多线程
+- 隐式多线程 VS 显式多线程
+	- 直接同步调用：使用方法名
+	- 间接同步调用：使用单播/多播委托的invoke方法
+	- 隐式异步调用：使用委托的BeginInvoke
+	- 显式异步调用：使用Thread或Task
+
+
+## 异步调用
+
+```cs
+Student stu1 = new Student { Name = "张三", PenColor = ConsoleColor.Green };
+Student stu2 = new Student { Name = "李四", PenColor = ConsoleColor.Yellow };
+Student stu3 = new Student { Name = "王五", PenColor = ConsoleColor.Blue };
+
+Action action = stu1.DoHomework;
+action += stu2.DoHomework;
+action += stu3.DoHomework;
+
+class Student
+{
+    public string Name { get; set; }
+    public ConsoleColor PenColor { get; set; }
+
+    public void DoHomework()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            Console.ForegroundColor = PenColor;
+            Console.WriteLine($"{Name} doing homework {i + 1} hours");
+            Thread.Sleep(1000);// 暂停1秒
+        }
+    }
+}
+```
+
+### 隐式异步调用
+
+```cs
+// .net core平台不支持多线程调用，要换成.net framework
+action.BeginInvoke(null, null);// 隐式异步调用
+```
+
+### 显式异步调用
+
+```cs
+// Thread 显式异步调用
+Thread thread1 = new Thread(new ThreadStart(stu1.DoHomework));
+Thread thread2 = new Thread(new ThreadStart(stu2.DoHomework));
+Thread thread3 = new Thread(new ThreadStart(stu3.DoHomework));
+
+thread1.Start();
+thread2.Start();
+thread3.Start();
+
+/*
+ 结果：
+张三 doing homework 1 hours
+李四 doing homework 1 hours
+王五 doing homework 1 hours
+李四 doing homework 2 hours
+王五 doing homework 2 hours
+张三 doing homework 2 hours
+张三 doing homework 3 hours
+李四 doing homework 3 hours
+王五 doing homework 3 hours
+王五 doing homework 4 hours
+张三 doing homework 4 hours
+李四 doing homework 4 hours
+王五 doing homework 5 hours
+李四 doing homework 5 hours
+张三 doing homework 5 hours
+ 
+ */
+
+// Task 显式异步调用
+Task task1 = new Task(new Action(stu1.DoHomework));
+Task task2 = new Task(new Action(stu2.DoHomework));
+Task task3 = new Task(new Action(stu3.DoHomework));
+
+task1.Start();
+task2.Start();
+task3.Start();
+Task.WaitAll(task1, task2, task3);
+
+---
+
+Task task1 = Task.Run(() => stu1.DoHomework());
+Task task2 = Task.Run(() => stu2.DoHomework());
+Task task3 = Task.Run(() => stu3.DoHomework());
+
+Task.WaitAll(task1, task2, task3);
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1112,3 +1322,5 @@ select *=5后：
 [历代 C# 语言特性，C# 发展历史——微软官方]:https://learn.microsoft.com/zh-cn/dotnet/csharp/whats-new/csharp-version-history
 
 [微软 C# 官方文档]:https://learn.microsoft.com/zh-cn/dotnet/csharp/tour-of-csharp/
+
+[^1]: 引用于：[刘铁猛《C#语言入门详解》全集](https://www.bilibili.com/video/BV13b411b7Ht/?p=20&share_source=copy_web&vd_source=407f92cf6751e29e9d623fde5b09db24&t=83)  1分25秒处弹幕

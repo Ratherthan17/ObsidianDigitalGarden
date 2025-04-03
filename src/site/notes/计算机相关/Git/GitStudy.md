@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/计算机相关/Git/GitStudy/","created":"2025-04-01T14:39:00","updated":"2025-04-01T23:35:38.866+08:00"}
+{"dg-publish":true,"permalink":"/计算机相关/Git/GitStudy/","created":"2025-04-01T14:39:00","updated":"2025-04-01T16:10:48.000+08:00"}
 ---
 
 
@@ -79,6 +79,12 @@ $ git branch -r
 
 # 列出所有本地分支和远程分支
 $ git branch -a
+
+# 切换到现有的某个分支
+$ git checkout 分支名
+
+# 重命名分支
+$ git branch -m 名字
 
 # 新建一个分支，但依然停留在当前分支
 $ git branch [branch-name]
