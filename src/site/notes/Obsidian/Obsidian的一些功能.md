@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/Obsidian/Obsidian的一些功能/","title":"Obsidian的一些功能","tags":["gardenEntry"],"created":"2025-03-30T21:35:00","updated":"2025-04-04T00:15:31.181+08:00"}
+{"dg-publish":true,"permalink":"/Obsidian/Obsidian的一些功能/","title":"Obsidian的一些功能","tags":["gardenEntry"],"created":"2025-03-30T21:35:00","updated":"2025-04-02T02:57:50.000+08:00"}
 ---
 
 

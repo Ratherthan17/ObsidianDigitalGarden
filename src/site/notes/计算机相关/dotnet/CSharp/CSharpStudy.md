@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/计算机相关/dotnet/CSharp/CSharpStudy/","created":"2025-03-15T17:24:00","updated":"2025-04-04T00:30:16.642+08:00"}
+{"dg-publish":true,"permalink":"/计算机相关/dotnet/CSharp/CSharpStudy/","created":"2025-03-15T17:24:00","updated":"2025-04-06T00:45:36.216+08:00"}
 ---
 
 
@@ -24,6 +24,8 @@
 
 ### 值类型
 
+- 和 C/C++ 不同，在 **C# 中数字不具有布尔意义。**
+
 | 名称      | 含义              | 范围                                                           | .Net框架类型       | 默认值         |
 | ------- | --------------- | ------------------------------------------------------------ | -------------- | ----------- |
 | sbyte   | 8位有符号整数         | -128~127                                                     | System.Sbyte   | 0           |
@@ -42,18 +44,11 @@
 
 ---
 
-## 转换
+## 方法
 
-### 显式转换
+#未完成 
 
-- `Convert.ToInt32()`
-	- [四舍六入五成双]( https://baike.baidu.com/item/%E5%9B%9B%E8%88%8D%E5%85%AD%E5%85%A5%E4%BA%94%E6%88%90%E5%8F%8C/9062547)
-{ #4Round6Carry}
-
-		- （1）被修约的数字小于5时，该数字舍去；
-		- （2）被修约的数字大于5时，则进位；
-		- （3）被修约的数字等于5时，要看5前面的数字，若是奇数则进位，若是偶数则将5舍掉，即修约后末尾数字都成为偶数；若5的后面还有不为“0”的任何数，则此时无论5的前面是奇数还是偶数，均应进位。
-## ref引用
+### ref引用
 
 - ref 必须位于类型和名称前面
 	- `int ref i = ref j; // 错误`
@@ -70,7 +65,6 @@ void ChangeValue(ref int value)
 } 
 Console.WriteLine(i);// 20
 ```
-
 
 ---
 
@@ -116,9 +110,74 @@ Console.WriteLine(oStr);
 
 - `XXX.ToString("X2");`
 
+---
+
+## 结构体
+#未完成 
+
+---
+
+## 枚举
+
+#未完成 
+
+---
+
+## 数组
+#未完成 
+
+---
+
+## 集合
+
+### ArrayList
+- 缺点：会进行装、拆箱；类型匹配混乱
+
+```cs
+using System.Collections; 
+
+ArrayList arrayList = new ArrayList(); 
+arrayList.Add(10); 
+arrayList.Add("Hello"); 
+arrayList.Add(true); 
+arrayList.Insert(1, "World"); 
+arrayList.Remove(10); 
+arrayList.RemoveAt(1); 
+arrayList.Clear(); 
+
+foreach (var item in arrayList) 
+{ 
+	Console.WriteLine(item); 
+}
+
+```
+
+### List<>
+- 删除集合元素后，表面上集合变小了，实际上集合大小没变，只是能获取到的索引范围变小了
+
+```cs
+List<string> names = new List<string>() { "John", "Mary", "Peter" }; 
+names.Add("Tom"); 
+names.Add("Jane"); 
+names.Insert(1, "Lily");
+names.Remove("Mary"); 
+names.AddRange(new string[]{"zhang", "wang", "li", "zhao"}); names.AddRange(names); 
+
+foreach (var name in names) 
+{
+	Console.WriteLine(name); 
+}
+// List泛型集合可以转换为数组，同样数组可以转换成泛型集合 
+string[] names2 = names.ToArray();
+List<string> list = name2.ToList(); 
+
+names.Clear(); 
+Console.WriteLine(names.Count);
+```
+
 ### [元组（C#7.0-2017 年 3 月）](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/value-tuples)
 
-元组最常见的用例之一是作为方法返回类型。 也就是说，你可以将方法结果分组为元组返回类型，而不是定义 out 方法参数，如以下示例所示：
+- 元组最常见的用例之一是作为方法返回类型。 也就是说，你可以将方法结果分组为元组返回类型，而不是定义 out 方法参数，如以下示例所示：
 
 ```cs
 int[] xs = new int[] { 4, 7, 9 }; 
@@ -158,128 +217,6 @@ var (minimum, maximum) = FindMinMax(ys); Console.WriteLine($"Limits of [{string.
 	 } 
 	 return (min, max); 
 }
-```
-
-
----
-
-## ?、??、?. 运算符
-
-### (?)可空类型修饰符（C#2.0-2005-11-07）
-
-- 引用类型可以使用空引用表示一个不存在的值，而值类型通常不能表示为空。
-	- 例如：`string str=null;` 是正确的，`int i=null;` 编译器就会报错。
-- 为了使值类型也可为空，就可以使用可空类型，即用可空类型修饰符"？"来表示，表现形式为"T？"
-	- 例如：`int?` 表示可空的整形，`DateTime?` 表示可为空的时间。
-	- `T?` 其实是`System.Nullable`(泛型结构）的缩写形式，也就意味着当你用到`T？`时编译器编译时会把`T？`编译成`System.Nullable`的形式。
-	- 例如：`int?`,编译后便是`System.Nullable`的形式。
-
-### (??) 空合并运算符（C#8.0-2019-04-18）
-
-- 用于定义可空类型和引用类型的默认值。**如果此运算符的左操作数不为null，则此运算符将返回左操作数，否则返回右操作数。**
-	- 例如：`a??b` 当a不为null时返回a本身，a为null时则返回b，。
-- 空合并运算符为右结合运算符，即操作时从右向左进行组合的。如，“`a??b??c`”的形式按“`a??(b??c)`”计算。
-
-```cs
-string a = null;
-a = "Hello" ?? "World"; 
-Console.WriteLine(a);// Hello 
-
-a = null ?? "world"; 
-Console.WriteLine(a);// world
-```
-
-### (??=)空合并赋值运算符 （C#8.0-2019-04-18）
-
-- 空合并赋值运算符 (??=) 是 ?? 运算符的赋值版本，它允许你为可能为 null 的变量提供一个默认值。**如果变量为 null，则将其赋值为右边的值；否则保持不变。**
-- ??= 运算符的左操作数必须是变量、属性或索引器元素。
-- `a = a + b ;` =>` a += b;`
-	- `a = a ?? b;` => `a ??= b;`
-
-```cs
-string nickname = null;// 昵称 
-//nickname = nickname ?? "CoolCoder"; 
-nickname ??= "CoolCoder"; 
-Console.WriteLine(nickname); // 输出: CoolCoder 
-
-string username = "DeveloperDave"; 
-//username = username ?? "Newbie"; 
-username ??= "Newbie"; 
-Console.WriteLine(username); // 输出: DeveloperDave（未改变，因为原本不为null）
-```
-
-### (?.)空条件运算符 （C#8.0-2019-04-18）
-
-- 空条件运算符 (?.) 使你能够在访问对象成员之前安全地检查该对象是否为 null。如果对象为 null，则表达式立即返回 null 而不是继续执行成员访问，从而避免了 NullReferenceException。
-
-```cs
-Person person = null;
-string jobTitle = person?.JobTitle; Console.WriteLine(jobTitle); // 输出: null（而不是引发异常） 
-
-person = new Person { JobTitle = "Software Engineer" }; jobTitle = person?.JobTitle; 
-Console.WriteLine(jobTitle); // 输出: Software Engineer
-```
-
-
----
-
-## 装箱、拆箱
-
-- 装箱：将值类型转换为引用类型
-- 拆箱：将引用类型转换为值类型
-- 看两种类型是否发生了装箱或者拆箱，要看，这两种类型是否存在继承关系。
-	- 有继承关系可能发生装箱，无继承关系一定不会发生装箱
-	- 如：`string str = "123"; int i = (int)str;` 没有发生拆箱，因为 int 和 string 没有继承关系
-- 装、拆箱会影响性能
-
-
----
-
-## 集合
-
-- ### ArrayList
-	- 缺点：会进行装、拆箱；类型匹配混乱
-
-```cs
-using System.Collections; 
-
-ArrayList arrayList = new ArrayList(); 
-arrayList.Add(10); 
-arrayList.Add("Hello"); 
-arrayList.Add(true); 
-arrayList.Insert(1, "World"); 
-arrayList.Remove(10); 
-arrayList.RemoveAt(1); 
-arrayList.Clear(); 
-
-foreach (var item in arrayList) 
-{ 
-	Console.WriteLine(item); 
-}
-
-```
-
-- ### List<>
-	- 删除集合元素后，表面上集合变小了，实际上集合大小没变，只是能获取到的索引范围变小了
-
-```cs
-List<string> names = new List<string>() { "John", "Mary", "Peter" }; 
-names.Add("Tom"); 
-names.Add("Jane"); 
-names.Insert(1, "Lily");
-names.Remove("Mary"); 
-names.AddRange(new string[]{"zhang", "wang", "li", "zhao"}); names.AddRange(names); 
-
-foreach (var name in names) 
-{
-	Console.WriteLine(name); 
-}
-// List泛型集合可以转换为数组，同样数组可以转换成泛型集合 
-string[] names2 = names.ToArray();
-List<string> list = name2.ToList(); 
-
-names.Clear(); 
-Console.WriteLine(names.Count);
 ```
 
 
@@ -847,39 +784,330 @@ Mydel lam1 =             x => x + 1; // Lambda 表达式
 		- 事件数据
 		- **事件参数**
 
-> [!tip] 提示
+> [!tip]- 提示
 > - 事件多用于桌面、手机等开发的客户端编程，因为这些程序经常是用户通过事件来"驱动"的
 > - 各种编程语言对这个机制的实现方法不尽相同
 > - Java语言里没有事件这种成员，也没有委托这种数据类型。Java的"事件"是使用接口来实现的
 > - MVC、MVP、MVVM等模式，是事件模式更高级、更有效的"玩法"
 > - 日常开发的时候，使用已有事件的机会比较多，自己声明事件的机会比较少，所以先学使用
 
+### 事件的应用
+
+- 事件模型的五个组成部分
+	1. 事件的拥有者（event source，对象）
+	2. 事件成员（event，成员）
+	3. 事件的响应者（event subscriber，对象）
+	4. 事件处理器（event handler，方法成员）——本质上是一个回调方法
+	5. 事件订阅——把事件处理器与事件关联在一起，本质上是一种以委托类型为基础的"约定"
+- 触发事件，是事件的拥有者的一些内部逻辑触发的事件
+
+```cs
+// 事件的拥有者
+class Program
+{
+	static void Main(string[] args)
+	{
+		System.Timers.Timer timer = new System.Timers.Timer();
+		timer.Interval = 1000;
+		Boy boy = new Boy();
+		timer.Elapsed += boy.Action;
+		Girl girl = new girl();
+		timer.Elapsed += girl.Action;
+		timer.Start();
+		Console.ReadKey();
+	}
+}
+
+// 事件的响应者
+class Boy
+{
+	// 事件处理器
+    internal void Action(object? sender, ElapsedEventArgs e)
+    {
+        Console.WriteLine("Jump!");
+    }
+}
+class Girl
+{
+	// 事件处理器
+    internal void Action(object? sender, ElapsedEventArgs e)
+    {
+        Console.WriteLine("Sing!");
+    }
+}
+```
+
+- ⭐
+	- **事件的拥有者和事件的响应者是两个不同的对象**
+```mermaid
+---
+
+config:
+
+  look: neo
+
+  theme: default
 
 ---
-## solid设计原则
 
->  **S-single responsibility principle（SRP）—单一职责原则**
+flowchart RL
 
-- 一个类或一个模块只做一件事，让一个类或者一个模块专注于单一的功能，减少功能之间的耦合程度，这样做在需要修改某个功能时，就不会影响到其他的功能
+ subgraph s1["事件的拥有者"]
 
->  **O—open closed principle（OCP）——开闭原则**
+        n1["事件"]
 
-- 对扩展开放，对修改关闭。一个类独立之后就不应该去修改它，而是以扩展的方式适应新需求。
+  end
 
-> **L—liskov substitution principle（LSP）—里氏替换原则**
+ subgraph s2["事件的响应者"]
 
-- 所有基类出现的地方都可以用派生类替换，而不会让程序产生错误，派生类可以扩展基类的功能，但不能改变基类原有的功能。
+        n2["事件处理器"]
 
->  **I—interface segregation principle（ISP）—接口隔离原则**
+  end
 
-- 一个接口应该拥有尽可能少的行为，使其精简单一。对于不同的功能的模块分别使用不同接口，而不是使用同一个通用的接口。
+    n2 -- 订阅 --> n1
+```
 
->  **D—depend inversion principle（DIP）—依赖倒置原则**
+```cs title:⭐
+class Program
+{
+	static void Main(string[] args)
+	{
+		// 事件的拥有者为 Form
+		Form form = new Form();
+		Controller controller = new Controller(form);
+		form.ShowDialog();
+	}
+}
+// 事件的响应者为 Controller
+class Controller
+{
+	private Form _form;
+	public Controller(Form form)
+	{
+		if(form != null)
+		{
+			_form = form;
+			// 订阅
+			_form.Click += this.FormClicked;
+		}
+	}
+	// 事件处理器
+	private void FormClicked(object sender, EventArgs e)
+	{
+		_form.text = DataTime.New.ToString();
+	}
+}
+```
 
-- 高级模块不应该依赖低级模块，而是依赖抽象接口，通过抽象接口使用对应的低级模块。
+- ⭐⭐
+	- **事件的拥有者同时也是事件的响应者**
+
+```mermaid
+---
+
+config:
+
+  look: neo
+
+  theme: default
 
 ---
 
+flowchart
+
+ subgraph s2["事件的拥有者同时也是事件的响应者"]
+
+        n2["事件处理器"]
+
+        n3["事件"]
+
+  end
+
+    n2 -- 订阅 --> n3
+```
+
+```cs title:⭐⭐
+class Program
+{
+	static void Main(string[] args)
+	{
+		// 事件的拥有者为 MyForm
+		MyForm myForm = new MyForm();
+		myForm.Click += myForm.FormClicked;
+		myForm.ShowDialog();
+	}
+}
+class MyForm:Form
+{
+	// 事件的响应者还是事件拥有者它自己
+	// 事件处理器
+	void FormClicked(object sender, EventArgs e)
+	{
+		this.Text = DataTime.Now.ToString();
+	}
+}
+
+```
+
+
+- ⭐⭐⭐
+	- **事件的拥有者是事件的响应者的一个字段成员。**
+	- 例子：
+		- 窗口对象有关闭按钮，按钮是窗口的成员，按钮有关闭事件，窗口的关闭方法订阅了按钮的事件
+```mermaid
+flowchart TB
+
+ subgraph s2["事件的拥有者"]
+
+        n2["事件"]
+
+  end
+
+ subgraph s1["事件的响应者"]
+
+        n1["事件处理器"]
+
+        s2
+
+  end
+
+    n1 -- 订阅 --> n2
+```
+
+```cs title:⭐⭐⭐
+class Program
+{
+	static void Main(string[] args)
+	{
+		// 事件的响应者为 MyForm
+		MyForm myForm = new MyForm();
+		myForm.ShowDialog();
+	}
+}
+// 窗口有按钮和文本框成员，按钮是事件拥有者，窗口是事件响应者
+class MyForm:Form
+{
+	private TextBox textBox;
+	// 事件的拥有者为 Button
+	private Button button;
+	
+	public MyForm()
+	{
+		this.textBox = new TextBox();
+		this.button = new Button();
+		this.Controls.Add(this.texbox);
+		this.Controls.Add(this.button);
+		this.button.Click += this.ButtonCLicked;
+		this.button.Text = "SayHello";
+		this.button.Top = 100;// 按钮的上边界距窗口距离
+	}
+	// 事件处理器
+	private void ButtonClicked(object sender, EventArgs e)
+	{
+		this.textBox.Text = "Hello World";
+	}
+}
+```
+
+> **一个事件可以同时挂接多个事件处理器**
+> 	Boy、Girl 的例子
+> 	
+> **一个事件处理器可以被多个事件挂接**
+> 	
+
+#未完成 
+### 事件的自定义声明
+
+- 事件是基于委托的，有两层意思：
+	1. 第一层：**事件需要委托类型来做一个约束**。这个约束既规定了事件能够发送什么样的消息给事件的响应者，也规定了事件的响应者能收到什么样的事件消息，这就决定了事件响应者的事件处理器必须能够跟这个约束匹配上，它们才能订阅这个事件。
+	2. 第二层：当事件的响应者，向事件的拥有者提供了能够匹配这个事件的事件处理器之后，需要把这个事件处理器保存或者记录下来，能够记录或者说引用方法的任务，也只有委托类型的实例能做到。
+
+- 事件只能出现在 += 和 -= 的左边，不能出现在其他任何操作符的左边
+- 就像属性是普通字段的包装器一样，事件是委托的包装器，是对委托的一种约束限制：限制外界对这个委托字段的访问，只能为它添加或移除事件处理器，**只能在事件拥有者的内部去触发事件**。
+
+
+- 两个声明可以看下面的例子
+#### 完整声明
+
+```cs
+delegate void CallWaiterEventHandler(Customer customer);
+
+class Customer
+{
+	// 声明委托类型字段，用来存储引用事件处理器
+	private CallWaiterEventHandler _callWaiter;
+	// 顾客叫服务员事件
+	public event CallWaiterEventHandler CallWaiterEvent
+	{
+	    add
+	    {
+	        _callWaiter += value;
+	    }
+	    remove
+	    {
+	        _callWaiter -= value;
+	    }
+	}
+}
+```
+
+#### 简略声明
+
+```cs
+// 顾客点餐事件
+public event EventHandler<OrderEventArgs> Order;
+```
+
+
+#### 例子
+
+- 有这样一段剧情
+
+```mermaid
+graph LR
+	顾客进饭馆-->喊服务员点餐-->服务员展示菜单-->顾客点餐-->服务员上菜-->顾客结账-->服务员展示账单-->顾客付款
+```
+
+- 首先抽象出两个角色类，顾客类和服务员类
+- 然后是事件：（五个部分，**事件**，==事件拥有者==，==订阅者==，==事件处理器==，==订阅==）
+	1. **喊服务员事件**：因为是顾客喊服务员，所以==事件拥有者==是顾客，==订阅者==是服务员，==事件处理器==是服务员展示菜单方法，服务员==订阅==顾客
+	2. **点餐事件**：顾客点餐，==事件拥有者==为顾客，==订阅者==为服务员，==事件处理器==是服务员上菜，服务员==订阅==顾客
+	3. **结账事件**：顾客结账，==事件拥有者==为顾客，==订阅者==为服务员，==事件处理器==是服务员展示账单，服务员==订阅==顾客
+- 这个例子是一星模型，**事件的拥有者和事件的响应者是两个不同的对象**
+- [[计算机相关/dotnet/CSharp/未命名/事件例子\|事件例子]]
+
+
+### 事件与委托的关系
+
+>  **为什么要使用委托类型来声明事件？**
+
+- 事件基于委托，实际上是由事件处理器决定的，处理器需要啥，事件就需要传递啥（决定了参数列表），同时处理器是一个方法，能存储方法及其参数类型的只有委托[^2]。
+
+
+---
+
+## 转换
+
+### 显式转换
+
+- `Convert.ToInt32()`
+	- [四舍六入五成双]( https://baike.baidu.com/item/%E5%9B%9B%E8%88%8D%E5%85%AD%E5%85%A5%E4%BA%94%E6%88%90%E5%8F%8C/9062547)
+{ #4Round6Carry}
+
+		- （1）被修约的数字小于5时，该数字舍去；
+		- （2）被修约的数字大于5时，则进位；
+		- （3）被修约的数字等于5时，要看5前面的数字，若是奇数则进位，若是偶数则将5舍掉，即修约后末尾数字都成为偶数；若5的后面还有不为“0”的任何数，则此时无论5的前面是奇数还是偶数，均应进位。
+
+### 装箱、拆箱
+
+- 装箱：将值类型转换为引用类型
+- 拆箱：将引用类型转换为值类型
+- 看两种类型是否发生了装箱或者拆箱，要看，这两种类型是否存在继承关系。
+	- 有继承关系可能发生装箱，无继承关系一定不会发生装箱
+	- 如：`string str = "123"; int i = (int)str;` 没有发生拆箱，因为 int 和 string 没有继承关系
+- 装、拆箱会影响性能
+
+---
 ## IO文件
 
 ### Path类-路径操作
@@ -1069,9 +1297,83 @@ static string GetMD5(string str)
 
 ---
 
+## ?、??、?. 运算符
+
+### (?)可空类型修饰符（C#2.0-2005-11-07）
+
+- 引用类型可以使用空引用表示一个不存在的值，而值类型通常不能表示为空。
+	- 例如：`string str=null;` 是正确的，`int i=null;` 编译器就会报错。
+- 为了使值类型也可为空，就可以使用可空类型，即用可空类型修饰符"？"来表示，表现形式为"T？"
+	- 例如：`int?` 表示可空的整形，`DateTime?` 表示可为空的时间。
+	- `T?` 其实是`System.Nullable`(泛型结构）的缩写形式，也就意味着当你用到`T？`时编译器编译时会把`T？`编译成`System.Nullable`的形式。
+	- 例如：`int?`,编译后便是`System.Nullable`的形式。
+
+### (??) 空合并运算符（C#8.0-2019-04-18）
+
+- 用于定义可空类型和引用类型的默认值。**如果此运算符的左操作数不为null，则此运算符将返回左操作数，否则返回右操作数。**
+	- 例如：`a??b` 当a不为null时返回a本身，a为null时则返回b，。
+- 空合并运算符为右结合运算符，即操作时从右向左进行组合的。如，“`a??b??c`”的形式按“`a??(b??c)`”计算。
+
+```cs
+string a = null;
+a = "Hello" ?? "World"; 
+Console.WriteLine(a);// Hello 
+
+a = null ?? "world"; 
+Console.WriteLine(a);// world
+```
+
+### (??=)空合并赋值运算符 （C#8.0-2019-04-18）
+
+- 空合并赋值运算符 (??=) 是 ?? 运算符的赋值版本，它允许你为可能为 null 的变量提供一个默认值。**如果变量为 null，则将其赋值为右边的值；否则保持不变。**
+- ??= 运算符的左操作数必须是变量、属性或索引器元素。
+- `a = a + b ;` =>` a += b;`
+	- `a = a ?? b;` => `a ??= b;`
+
+```cs
+string nickname = null;// 昵称 
+//nickname = nickname ?? "CoolCoder"; 
+nickname ??= "CoolCoder"; 
+Console.WriteLine(nickname); // 输出: CoolCoder 
+
+string username = "DeveloperDave"; 
+//username = username ?? "Newbie"; 
+username ??= "Newbie"; 
+Console.WriteLine(username); // 输出: DeveloperDave（未改变，因为原本不为null）
+```
+
+### (?.)空条件运算符 （C#8.0-2019-04-18）
+
+- 空条件运算符 (?.) 使你能够在访问对象成员之前安全地检查该对象是否为 null。如果对象为 null，则表达式立即返回 null 而不是继续执行成员访问，从而避免了 NullReferenceException。
+
+```cs
+Person person = null;
+string jobTitle = person?.JobTitle; Console.WriteLine(jobTitle); // 输出: null（而不是引发异常） 
+
+person = new Person { JobTitle = "Software Engineer" }; jobTitle = person?.JobTitle; 
+Console.WriteLine(jobTitle); // 输出: Software Engineer
+```
+
+
+---
+
 ## 杂项
 
+### 命名约定
+
+- [微软 C# 标识符命名规则和约定](https://learn.microsoft.com/zh-cn/dotnet/csharp/fundamentals/coding-style/identifier-names)
+
+| 风格名称        | 描述                       | 推荐使用                                                        | 示例                             |
+| ----------- | ------------------------ | ----------------------------------------------------------- | ------------------------------ |
+| Pascal大小写   | 标识符中每个单词的首字母大写           | 用于：命名空间、类、结构、接口、委托、属性、事件、和公共字段、公共方法                         | CardDeck、Dealershand           |
+| Camel大小写    | 标识符中第一个单词首字母小写，其他单词首字母大写 | 用于局部变量的名称和方法声明的形参名称                                         | totalCycleCount、randomSeedParm |
+| 下划线加Camel小写 | 以下划线开头的Camel大小写          | private、internal；static 的 private或interenal 用`s_`；线程静态用`t_` | _cycleCount、_selectedIndex     |
+
+
 ### 怎么写注释
+
+- 对方法和类使用“///”三斜线注释。
+- 代码行文注释采用“//”和“`/**/`”进行，应该尽量说明问题。
 
 ```cs
 /// <summary> 
@@ -1186,9 +1488,53 @@ select *=5后：
 */
 ```
 
+### CSharp反汇编
+
+- [刘铁猛《C#语言入门详解》全集——反汇编部分](https://www.bilibili.com/video/BV13b411b7Ht/?p=14&share_source=copy_web&vd_source=407f92cf6751e29e9d623fde5b09db24&t=833)
+- [刘铁猛《C#语言入门详解》全集 - 事件下—反汇编2 ](https://www.bilibili.com/video/BV13b411b7Ht/?p=22&share_source=copy_web&vd_source=407f92cf6751e29e9d623fde5b09db24&t=1857)
+
+- 开始搜索 -> Developer Command Prompt for VS2022 -> 输入 `ildasm`  回车
+	- 项目生成解决方案->在 bin/net8.0/Debug 文件夹下找到“项目名.exe”，把它拖进ildasm里
+	- il：中间语言；Dasm：反编译
+	- ildasm 工具帮助我们查看Csharp语言编译好的低级语言代码
+
+
+
+
 ---
 
 # 进阶知识
+
+
+## 泛型
+#未完成 
+- Csharp 提供了5种泛型：类、结构、接口、委托和方法。
+- `<T>` 是占位符，可以不写 T ，而是其他任意标识符
+- 
+### 泛型类
+
+- 声明泛型类
+
+```cs
+class SomeClass <T1, T2>
+{
+	T1 SomeVar = new T1();
+	T2 OtherVar = new T2();
+}
+```
+
+- 创建泛型对象
+
+```cs
+SomeClass<short, int> mySc1 = new SomeClass<short, int>;
+```
+
+---
+
+## Linq
+#未完成 
+
+---
 
 ## 多线程、异步编程
 
@@ -1210,7 +1556,7 @@ select *=5后：
 	- 显式异步调用：使用Thread或Task
 
 
-## 异步调用
+### 异步调用
 
 ```cs
 Student stu1 = new Student { Name = "张三", PenColor = ConsoleColor.Green };
@@ -1238,14 +1584,14 @@ class Student
 }
 ```
 
-### 隐式异步调用
+#### 隐式异步调用
 
 ```cs
 // .net core平台不支持多线程调用，要换成.net framework
 action.BeginInvoke(null, null);// 隐式异步调用
 ```
 
-### 显式异步调用
+#### 显式异步调用
 
 ```cs
 // Thread 显式异步调用
@@ -1296,6 +1642,38 @@ Task task3 = Task.Run(() => stu3.DoHomework());
 Task.WaitAll(task1, task2, task3);
 ```
 
+---
+
+## 反射和特性
+#未完成 
+
+
+
+
+
+
+---
+## solid设计原则
+
+>  **S-single responsibility principle（SRP）—单一职责原则**
+
+- 一个类或一个模块只做一件事，让一个类或者一个模块专注于单一的功能，减少功能之间的耦合程度，这样做在需要修改某个功能时，就不会影响到其他的功能
+
+>  **O—open closed principle（OCP）——开闭原则**
+
+- 对扩展开放，对修改关闭。一个类独立之后就不应该去修改它，而是以扩展的方式适应新需求。
+
+> **L—liskov substitution principle（LSP）—里氏替换原则**
+
+- 所有基类出现的地方都可以用派生类替换，而不会让程序产生错误，派生类可以扩展基类的功能，但不能改变基类原有的功能。
+
+>  **I—interface segregation principle（ISP）—接口隔离原则**
+
+- 一个接口应该拥有尽可能少的行为，使其精简单一。对于不同的功能的模块分别使用不同接口，而不是使用同一个通用的接口。
+
+>  **D—depend inversion principle（DIP）—依赖倒置原则**
+
+- 高级模块不应该依赖低级模块，而是依赖抽象接口，通过抽象接口使用对应的低级模块。
 
 
 
@@ -1323,4 +1701,8 @@ Task.WaitAll(task1, task2, task3);
 
 [微软 C# 官方文档]:https://learn.microsoft.com/zh-cn/dotnet/csharp/tour-of-csharp/
 
-[^1]: 引用于：[刘铁猛《C#语言入门详解》全集](https://www.bilibili.com/video/BV13b411b7Ht/?p=20&share_source=copy_web&vd_source=407f92cf6751e29e9d623fde5b09db24&t=83)  1分25秒处弹幕
+
+---
+[^1]: 引用于：[刘铁猛《C#语言入门详解》全集  1分25秒处弹幕](https://www.bilibili.com/video/BV13b411b7Ht/?p=20&share_source=copy_web&vd_source=407f92cf6751e29e9d623fde5b09db24&t=83) 
+
+[^2]: 引用于：[刘铁猛《C#语言入门详解》全集  1:02:06 处弹幕](https://www.bilibili.com/video/BV13b411b7Ht/?p=22&share_source=copy_web&vd_source=407f92cf6751e29e9d623fde5b09db24&t=3726)
